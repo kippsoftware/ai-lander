@@ -71,7 +71,7 @@ class Perceptron:
     def adjust_parameters(self, step_size):
         """Adjust parameters by the step size to reduce loss"""
         for parameter in self.parameters():
-            parameter += -step_size * parameter.grad
+            parameter += -step_size if parameter.grad > 0 else step_size
 
     def train_network(self, training_inputs, desired_outputs, step_size, num_steps, threshold):
         """Activate forward, compute loss, backpropagate gradients, adjust parameters;
@@ -128,5 +128,5 @@ if __name__ == '__main__':
     print('loss', loss.item())
 
     print('train network')
-    perceptron.train_network(training_data, desired_output, 0.01, 20, 0.0001)
+    perceptron.train_network(training_data, desired_output, 0.1, 10, 0.1)
     [print('activate', perceptron.forward(activation)) for activation in training_data]
